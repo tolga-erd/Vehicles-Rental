@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/16aa32ddf1.js" crossorigin="anonymous"></script>
+        <title>Rent Vehicle</title>
+        <link rel="stylesheet" href="./assets/style.css">
+    </head>
+    <body id="app">
+        <div class="container">
+            <div class="header">
+                <button class="close-ui-btn" onclick="closeUI()">&times;</button>
+                <h1>Vehicles</h1>
+                <p>Discover our premium vehicles and rent them now!</p>
+            </div>
+            <div class="vehicles-grid" id="vehiclesGrid">
+            </div>
+            <button class="return-open">
+              <span>Rent new vehicle </span> 
+              <i class="fa-solid fa-car fa-2x"></i>
+            </button>
+            <div class="return-menu">
+                <h1>Rent Vehicle</h1>
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <div id="rentalModal" class="rental-modal">
+            <div class="modal-content" id="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle" class="modal-title">Rent Vehicle</h2>
+                    <button class="close-btn" onclick="closeRentalModal()">&times;</button>
+                </div>
+                <div class="rent-image" id="rent-image"></div>
+                <div class="rental-total">
+                    <h3>Total: <span id="totalPrice"></span></h3>
+                </div>
+
+                <div class="rental-buttons">
+                    <button class="btn btn-secondary" onclick="closeRentalModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="confirmRental()" id="confirm"></button>
+                </div>
+            </div>
+        </div>
+        <script src="./assets/scripts.js"></script>
+    </body>
+</html>

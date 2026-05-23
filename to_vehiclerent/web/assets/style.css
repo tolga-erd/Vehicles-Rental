@@ -1,0 +1,437 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*::-webkit-scrollbar { width: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: #888; border-radius: 999px; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: transparent;
+    color: #ffffff;
+    padding: 20px;
+    min-height: 100vh;
+    display: none; /* Başlangıçta gizli */
+}
+
+body.show {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+.container {
+    position: relative;
+    max-width: 1400px;
+    margin: 100px auto;
+    background: rgba(10, 10, 10, 0.70);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.close-ui-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: rgba(220, 38, 38, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-ui-btn:hover {
+    background: rgba(220, 38, 38, 1);
+    transform: scale(1.1);
+}
+
+.header h1 {
+    font-size: 3rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.vehicle-card {
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 1px solid #333;
+    position: relative;
+    height: 200px;
+    width: 300px;
+    margin-top: 10px;
+}
+
+.vehicle-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.vehicle-card:hover::before {
+    opacity: 1;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+}
+.vehicle-card:hover div{
+    transition: background-size 0.3s ease;
+    background-size: 130%;
+}
+
+.vehicle-image {
+    height: 100%;
+    background-position: center;
+    position: relative;
+    transition: background-size 0.3s ease;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.vehicle-info {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    padding: 20px;
+}
+
+.vehicle-name {
+    display: grid;
+    place-items: center; /* hem yatay hem dikey ortalama */
+    height: 100%;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.vehicle-price {
+    font-size: 1.1rem;
+    color: #4ade80;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease 0.1s;
+}
+
+.vehicle-card:hover .vehicle-name {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.vehicle-card:hover .vehicle-price {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.vehicle-card:hover .vehicle-info {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Rental Modal */
+.rental-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #333;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.rent-image {
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 20px;
+    width: 420px;
+    height: 210px;
+    border: 1px solid #333;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.modal-title {
+    font-size: 2rem;
+    color: #667eea;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ffffff;
+}
+
+.rental-options {
+    margin-bottom: 30px;
+}
+
+.option-group {
+    margin-bottom: 20px;
+}
+
+.option-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.option-select {
+    width: 100%;
+    padding: 12px;
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.rental-total {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.rental-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(74, 222, 128, 0.3);
+}
+
+.btn-secondary {
+    background: #333;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+.btn-secondary:hover {
+    background: #444;
+}
+
+.hide {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+/* --- Buton --- */
+.return-open {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #ffdf1d99;
+    color: #fff;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; 
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.return-open span{
+    font-size: 25px;
+    line-height: 1; 
+    display: inline-block;
+}
+
+.return-open i{
+    font-size: 35px;
+    line-height: 1; 
+    display: inline-block;
+}
+
+.return-open:hover {
+    background: #00000099;
+    transform: scale(1.1);
+}
+
+/* --- Menü --- */
+.return-menu {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: calc(50% - 20px);
+    height: calc(100% - 20px);
+    background: #404040;
+    border-radius: 20px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transform-origin: bottom right;
+    transform: scale(0);
+    transition: transform 0.4s ease, border-radius 0.4s ease;
+    z-index: 1;
+    overflow-y: scroll; 
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+.return-menu.active {
+    border-radius: 15px;
+    transform: scale(1);
+}
+
+.return-menu ul {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.return-menu h1{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 38px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    font-size: 3rem;
+    background: linear-gradient(135deg, rgb(102 126 234) 0%, rgb(118 75 162) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.return-menu.active ul {
+    opacity: 1;
+}
+
+.return-menu li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
